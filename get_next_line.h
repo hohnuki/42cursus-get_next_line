@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:35 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/11/12 20:22:32 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/11/15 18:42:28 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# define BUFFER_SIZE 50
+# include <stdio.h>
+
 int		get_next_line(int fd, char **line);
 char	*ft_strcpy(char *s1, const char *s2);
 char	*ft_strdup(const char *s1);
