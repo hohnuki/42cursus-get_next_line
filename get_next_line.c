@@ -6,12 +6,11 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/11/15 21:30:03 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/11/25 14:56:53 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-# define BUFFER_SIZE 10
 
 //TODO
 //前回余分に読み込まれた文字列のコンテナ
@@ -41,18 +40,4 @@ int	get_next_line(int fd, char **line)
 	if (return_read > 0)
 		return_read = 1;
 	return (return_read);
-}
-
-int	main(void)
-{
-	int	fd;
-	int	i;
-	char *line;
-
-	fd = open("sample2.txt", O_RDONLY);
-	i = 0;
-	if (fd == -1)
-		printf("file can't open\n");
-	while (get_next_line(fd, &line) > 0);
-	return (0);
 }
