@@ -6,38 +6,65 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/11/25 14:56:53 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/01 21:39:20 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//TODO
-//前回余分に読み込まれた文字列のコンテナ
-//前回余分に読み込まれた文字列を*lineに移動する処理
-//余分に読み込んだ文字列を格納する処理
-
-int	get_next_line(int fd, char **line)
+static size_t	find_newline(char *buff, char *save)
 {
-	char	buff[BUFFER_SIZE + 1];
-	char	*tmp;
-	int		return_read;
+	size_t	i;
 
-	while ((return_read = read(fd, buff, BUFFER_SIZE)) > 0)
+	i = 0;
+	while (buff[i] != '\0')
 	{
-		buff[return_read] = '\0';
-		if (!*line)
+		if (buff[i] == '\n')
+		{
+			if (save != NULL)
+				i += ft_strlen(save);
+			//printf("[ret] : %zu\n", i);
+			return (i + 1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+char	*get_next_line(int fd)
+{
+	char		*line;
+	char		*tmp;
+	static char	*save;
+	char		buff[BUFFER_SIZE + 1];
+
+	line = NULL;
+	if (fd < 0)
+		return (NULL);
+	while (read(fd, buff, BUFFER_SIZE) > 0)
+	{
+		printf("[buff] : %s\n", buff);
+		if (save != NULL)
+			line = save;
+		if (!line)
 			tmp = ft_strdup(buff);
 		else
-			tmp = ft_strjoin(*line, buff);
-		if (*line)
-			free(*line);
-		*line = tmp;
-		printf("%s\n", buff);
+			tmp = ft_strjoin(line, buff);
+		if (line)
+			free(line);
+		line = tmp;
 		if (ft_strchr(buff, '\n'))
-			break;
+		{
+			save = ft_substr(buff, find_newline(buff, save), BUFFER_SIZE);
+			line[find_newline(buff, save)] = '\0';
+			printf("[save] : %s, [find_nl] : %zu, [BUFFER_SIZE] : %d\n", save, find_newline(buff, save), BUFFER_SIZE);
+			break ;
+		}
+		else
+		{
+			save = ft_substr(buff, find_newline(buff, save), BUFFER_SIZE);
+			printf("[save] : %s, [find_nl] : %zu, [BUFFER_SIZE] : %d\n", save, find_newline(buff, save), BUFFER_SIZE);
+		}
 	}
-	if (return_read > 0)
-		return_read = 1;
-	return (return_read);
+	return (line);
 }

@@ -6,21 +6,11 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:38 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/11/12 19:59:04 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/01 21:35:50 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
 
 char	*ft_strcpy(char *s1, const char *s2)
 {
@@ -35,13 +25,23 @@ char	*ft_strcpy(char *s1, const char *s2)
 	s1[i] = '\0';
 	return (s1);
 }
-char	*ft_strdup(const char *s1)
+
+size_t	ft_strlen(const char *str)
 {
-	char	*str;
 	size_t	i;
 
 	i = 0;
-	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1))))
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*str;
+
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!str)
 		return (NULL);
 	ft_strcpy(str, s1);
 	return (str);
@@ -85,5 +85,29 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	return (0);
+	return (NULL);
+}
+
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (len <= ft_strlen(s))
+		str = (char *)malloc(sizeof(const char) * (len + 1));
+	else
+		str = (char *)malloc(sizeof(const char) * (ft_strlen(s) - start + 1));
+	if (!(str))
+		return (NULL);
+	while (i < len && s[start] != '\0')
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
 }

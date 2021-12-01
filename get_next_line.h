@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:35 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/11/15 18:42:28 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/01 20:30:27 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-int		get_next_line(int fd, char **line);
-char	*ft_strcpy(char *s1, const char *s2);
+char	*get_next_line(int fd);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *str);
+char	*ft_strcpy(char *s1, const char *s2);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strchr(const char *s, int c);
+char	*ft_substr(const char *s, unsigned int start, size_t len);
 
 #endif

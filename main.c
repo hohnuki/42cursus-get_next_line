@@ -1,15 +1,34 @@
 #include "get_next_line.h"
+#include <stdbool.h>
+#include <libgen.h>
+#include <string.h>
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	int	fd;
-	int	i;
-	char *line;
+	(void)argv;
+	char	*line = NULL;
+	bool	flag = true;
+	int		fd;
+	size_t	i;
 
-	fd = open("sample2.txt", O_RDONLY);
 	i = 0;
-	if (fd == -1)
-		printf("file can't open\n");
-	while (get_next_line(fd, &line) > 0);
+	if (argc == 2)
+	{
+		fd  = open(argv[1], O_RDONLY);
+		while (flag)
+		{
+			line = get_next_line(fd);
+			if (!line)
+			{
+				flag = false;
+				printf("[loop(%zu)] EOF or ERROR\n", i);
+			}
+			else
+				printf("[loop(%zu)] %s", i, line);
+			line = NULL;
+			i++;
+		}
+		close(fd);
+	}
 	return (0);
 }
