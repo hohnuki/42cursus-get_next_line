@@ -9,9 +9,10 @@ int	main(int argc, char **argv)
 	char	*line = NULL;
 	bool	flag = true;
 	int		fd;
-	size_t	i;
+	size_t	i, j;
 
 	i = 0;
+	j = 0;
 	if (argc == 2)
 	{
 		fd  = open(argv[1], O_RDONLY);
@@ -24,7 +25,15 @@ int	main(int argc, char **argv)
 				printf("[loop(%zu)] EOF or ERROR\n", i);
 			}
 			else
-				printf("[loop(%zu)] %s", i, line);
+			{
+				j = 0;
+				while (line[j])
+				{
+					printf("line[%zu] = %c\n", j, line[j]);
+					j++;
+				}
+				printf("[loop(%zu)] %s-------------------------\n", i, line);
+			}
 			line = NULL;
 			i++;
 		}
