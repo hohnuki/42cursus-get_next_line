@@ -6,11 +6,12 @@
 /*   By: ohnukihiroki <ohnukihiroki@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/02 18:47:26 by ohnukihirok      ###   ########.fr       */
+/*   Updated: 2021/12/03 00:54:05 by ohnukihirok      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 static size_t	find_newline_ex(char *buff, char *save)
 {
@@ -22,7 +23,7 @@ static size_t	find_newline_ex(char *buff, char *save)
 		if (buff[i] == '\n')
 		{
 			if (save != NULL && (ft_strlen(save) + i) <= ft_strlen(buff))
-				i += ft_strlen(save);
+                i += ft_strlen(save);
 			return (i + 1);
 		}
 		i++;
@@ -49,31 +50,42 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*tmp;
 	static char	*save;
-	char		buff[BUFFER_SIZE + 1];
+	char		*buff;
 
 	line = NULL;
+	tmp = NULL;
 	if (fd < 0)
 		return (NULL);
-	while (read(fd, buff, BUFFER_SIZE) > 0)
+	buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buff)
+		return (NULL);
+	while (read(fd, buff, BUFFER_SIZE) > 0 || save != NULL)
 	{
+		printf("buff = [%s]\n", buff);
 		if (save != NULL)
 		{
 			line = save;
-			save = NULL;
+			buff = NULL;
 		}
 		if (!line)
 			tmp = ft_strdup(buff);
 		else
 			tmp = ft_strjoin(line, buff);
+		if (!tmp)
+			return (NULL);
 		if (line)
 			free(line);
 		line = tmp;
 		if (ft_strchr(buff, '\n'))
 		{
 			save = ft_substr(buff, find_newline_ex(buff, save), BUFFER_SIZE);
-			line[find_newline(line)] = '\n';
+			if (strcmp(save, line) == 0)
+				save = NULL;
+			line[find_newline(line)] = '\0';
+			printf("\nsave= [%s]\n", save);
 			break ;
 		}
 	}
+	free(buff);
 	return (line);
 }
