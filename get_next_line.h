@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:35 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/01 20:30:27 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/03 21:29:06 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ size_t	ft_strlen(const char *str);
 char	*ft_strcpy(char *s1, const char *s2);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strchr(const char *s, int c);
-char	*ft_substr(const char *s, unsigned int start, size_t len);
+void	ft_substr_alter(char *s, unsigned int start, size_t len);
+void	*ft_calloc(size_t n, size_t size);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_strcat(char *dest, const char *src);
 
 #endif

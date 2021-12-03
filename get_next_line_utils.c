@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:38 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/01 21:35:50 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/03 21:28:46 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,26 +88,95 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+void	ft_substr_alter(char *s, unsigned int start, size_t len)
 {
-	char	*str;
 	size_t	i;
 
 	i = 0;
-	if (!s)
-		return (NULL);
-	if (len <= ft_strlen(s))
-		str = (char *)malloc(sizeof(const char) * (len + 1));
-	else
-		str = (char *)malloc(sizeof(const char) * (ft_strlen(s) - start + 1));
-	if (!(str))
-		return (NULL);
 	while (i < len && s[start] != '\0')
 	{
-		str[i] = s[start];
+		s[i] = s[start];
 		i++;
 		start++;
 	}
-	str[i] = '\0';
+	s[i] = '\0';
+}
+
+static void	*ft_memset(void *str, int c, size_t size)
+{
+	size_t			i;
+	unsigned char	*ptr;
+	unsigned char	value;
+
+	i = 0;
+	ptr = (unsigned char *)str;
+	value = (unsigned char)c;
+	while (i < size)
+	{
+		ptr[i] = value;
+		i++;
+	}
 	return (str);
 }
+
+static void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, '\0', n);
+}
+
+void	*ft_calloc(size_t n, size_t size)
+{
+	char	*ptr;
+	size_t	i;
+
+	i = 0;
+	if (!n || !size)
+	{
+		n = 1;
+		size = 1;
+	}
+	ptr = (char *)malloc(size * n);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, (size * n));
+	return ((void *)ptr);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	if (!size)
+		return (ft_strlen(src));
+	else
+	{
+		while (i < (size - 1) && src[i] != '\0')
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
+		return (ft_strlen(src));
+	}
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	unsigned int	num1;
+	unsigned int	num2;
+
+	num1 = 0;
+	num2 = 0;
+	while (dest[num1] != '\0')
+		num1++;
+	while (src[num2] != '\0')
+	{
+		dest[num1] = src[num2];
+		num1++;
+		num2++;
+	}
+	dest[num1] = '\0';
+	return (dest);
+}
+
