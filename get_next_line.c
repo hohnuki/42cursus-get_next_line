@@ -3,74 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohnukihiroki <ohnukihiroki@student.42.f    +#+  +:+       +#+        */
+/*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/08 00:52:41 by ohnukihirok      ###   ########.fr       */
+/*   Updated: 2021/12/08 22:57:01 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_get_line(char	*memo)
+static char	*ft_get_line(char	*keep)
 {
 	char	*str;
 	size_t	i;
 
 	i = 0;
-	if (!memo[i])
+	if (!keep[i])
 		return (NULL);
-	while (memo[i] != '\0' && memo[i] != '\n')
+	while (keep[i] != '\0' && keep[i] != '\n')
 		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));//i+2?
+	str = (char *)malloc(sizeof(char) * (i + 2));
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (memo[i] != '\0' && memo[i] != '\n')
+	while (keep[i] != '\0' && keep[i] != '\n')
 	{
-		str[i] = memo[i];
+		str[i] = keep[i];
 		i++;
 	}
-	if (memo[i] == '\n')
+	if (keep[i] == '\n')
 	{
-		str[i] = memo[i];
+		str[i] = keep[i];
 		i++;
 	}
 	str[i] = '\0';
 	return (str);
 }
 
-char	*ft_memo(char *memo)
+static char	*ft_save(char *keep)
 {
 	char	*str;
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while (memo[i] != '\0' && memo[i] != '\n')
+	while (keep[i] != '\0' && keep[i] != '\n')
 		i++;
-	if (!memo[i])
+	if (!keep[i])
 	{
-		free (memo);
+		free (keep);
 		return (NULL);
 	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(memo) - i + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(keep) - i + 1));
 	if (!str)
 		return (NULL);
 	i++;
 	j = 0;
-	while (memo[i] != '\0')
+	while (keep[i] != '\0')
 	{
-		str[j] = memo[i];
+		str[j] = keep[i];
 		j++;
 		i++;
 	}
 	str[j] = '\0';
-	free(memo);
+	free(keep);
 	return (str);
 }
 
-char	*ft_read_and_memo(int fd, char *memo)
+static char	*ft_read_and_save(int fd, char *keep)
 {
 	char	*buf;
 	ssize_t	read_ret;
@@ -79,7 +79,7 @@ char	*ft_read_and_memo(int fd, char *memo)
 	if (!(buf))
 		return (NULL);
 	read_ret = 1;
-	while (!ft_strchr(memo, '\n') && read_ret != 0)
+	while (!ft_strchr(keep, '\n') && read_ret != 0)
 	{
 		read_ret = read(fd, buf, BUFFER_SIZE);
 		if (read_ret == -1)
@@ -88,23 +88,30 @@ char	*ft_read_and_memo(int fd, char *memo)
 			return (NULL);
 		}
 		buf[read_ret] = '\0';
-		memo = ft_strjoin(memo, buf);
+		keep = ft_strjoin(keep, buf);
+		if (!keep)
+			break ;
 	}
 	free(buf);
-	return (memo);
+	return (keep);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char *memo;
+	char		*keep;
+	static char	*save;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	memo = ft_read_and_memo(fd, memo);
-	if (!memo)
+	keep = ft_read_and_save(fd, save);
+	if (!keep)
+	{
+		free(save);
+		save = NULL;
 		return (NULL);
-	line = ft_get_line(memo);
-	memo = ft_memo(memo);
+	}
+	line = ft_get_line(keep);
+	save = ft_save(keep);
 	return (line);
 }

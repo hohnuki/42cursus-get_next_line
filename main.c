@@ -7,14 +7,15 @@ int	main(int argc, char **argv)
 {
 	(void)argv;
 	char	*line = NULL;
-	bool	flag = true;
+	bool	flag;
 	int		fd;
 	size_t	i;
 
+	flag = true;
 	i = 0;
 	if (argc == 2)
 	{
-		fd  = open(argv[1], O_RDWR);
+		fd = open(argv[1], O_RDWR);
 		while (flag)
 		{
 			line = get_next_line(fd);
