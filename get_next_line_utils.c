@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:38 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/08 22:22:27 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/09 21:30:46 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	i;
-	size_t	c;
 	char	*str;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
-	c = 0;
+	j = 0;
 	if (!s1)
 	{
 		s1 = (char *)malloc(sizeof(char) * 1);
@@ -37,8 +37,8 @@ char	*ft_strjoin(char *s1, char *s2)
 		str[i] = s1[i];
 		i++;
 	}
-	while (s2[c] != '\0')
-		str[i++] = s2[c++];
+	while (s2[j] != '\0')
+		str[i++] = s2[j++];
 	str[i] = '\0';
 	free(s1);
 	return (str);
@@ -58,7 +58,7 @@ size_t	ft_strlen(char *str)
 
 char	*ft_strchr(char *s, int c)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (!s)
