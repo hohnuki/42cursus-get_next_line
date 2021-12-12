@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/09 21:31:32 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/12 21:09:50 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*store_to_save(char *save)
 	size_t	j;
 
 	i = 0;
-	while (save[i] != '\0' && save[i] != '\n')
+	while (save[i] && save[i] != '\n')
 		i++;
 	if (!save[i])
 	{
@@ -31,14 +31,14 @@ static char	*store_to_save(char *save)
 		return (NULL);
 	i++;
 	j = 0;
-	while (save[i] != '\0')
+	while (save[i])
 		str[j++] = save[i++];
 	str[j] = '\0';
 	free(save);
 	return (str);
 }
 
-static char	*get_line(char	*save)
+static char	*trimming_save(char	*save)
 {
 	char	*str;
 	size_t	i;
@@ -46,13 +46,13 @@ static char	*get_line(char	*save)
 	i = 0;
 	if (!save[i])
 		return (NULL);
-	while (save[i] != '\0' && save[i] != '\n')
+	while (save[i] && save[i] != '\n')
 		i++;
 	str = (char *)malloc(sizeof(char) * (i + 2));
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (save[i] != '\0' && save[i] != '\n')
+	while (save[i] && save[i] != '\n')
 	{
 		str[i] = save[i];
 		i++;
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	save = join_to_save(fd, save);
 	if (!save)
 		return (NULL);
-	line = get_line(save);
+	line = trimming_save(save);
 	save = store_to_save(save);
 	return (line);
 }
