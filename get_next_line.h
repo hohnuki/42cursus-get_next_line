@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:35 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/09 21:12:08 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/13 18:05:31 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <limits.h>
 
 size_t	ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);

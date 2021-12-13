@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/12 21:09:50 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/13 23:18:29 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*trimming_save(char	*save)
 	size_t	i;
 
 	i = 0;
-	if (!save[i])
+	if (!*save)
 		return (NULL);
 	while (save[i] && save[i] != '\n')
 		i++;
@@ -72,7 +72,7 @@ static char	*join_to_save(int fd, char *save)
 	ssize_t	read_ret;
 
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!(buf))
+	if (!buf)
 		return (NULL);
 	read_ret = 1;
 	while (!ft_strchr(save, '\n') && read_ret != 0)
@@ -85,8 +85,6 @@ static char	*join_to_save(int fd, char *save)
 		}
 		buf[read_ret] = '\0';
 		save = ft_strjoin(save, buf);
-		if (!save)
-			break ;
 	}
 	free(buf);
 	return (save);
@@ -97,7 +95,7 @@ char	*get_next_line(int fd)
 	static char	*save;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || INT_MAX <= BUFFER_SIZE)
 		return (NULL);
 	save = join_to_save(fd, save);
 	if (!save)
