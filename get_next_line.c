@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:09 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/15 21:25:49 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/15 22:01:13 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*store_to_save(char *save)
 	i = 0;
 	while (save[i] != '\0' && save[i] != '\n')
 		i++;
-	if (!save[i])
+	if (save[i] == '\0')
 	{
 		free (save);
 		return (NULL);
@@ -35,10 +35,10 @@ static char	*trimming_save(char	*save)
 	char	*str;
 	size_t	i;
 
-	if (!save[0])
+	if (save[0] == '\0')
 		return (NULL);
 	i = 0;
-	while (save[i] && save[i] != '\n')
+	while (save[i] != '\0' && save[i] != '\n')
 		i++;
 	str = ft_substr(save, 0, i + 1);
 	return (str);
@@ -53,7 +53,7 @@ static char	*join_to_save(int fd, char *save)
 		buf = (char *)malloc (sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	else
 		buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	if (buf == NULL)
 		return (NULL);
 	read_ret = NOT_EOF_OR_ERROR;
 	while (!ft_strchr(save, '\n') && read_ret != 0)
@@ -79,7 +79,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || INT_MAX < BUFFER_SIZE)
 		return (NULL);
 	save = join_to_save(fd, save);
-	if (!save)
+	if (save == NULL)
 		return (NULL);
 	line = trimming_save(save);
 	save = store_to_save(save);

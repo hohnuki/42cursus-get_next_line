@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:38 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/15 21:33:05 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/15 22:00:59 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
+	if (str == NULL)
 		return (NULL);
 	while (i < s1_len)
 		str[i++] = s1[j++];
@@ -42,9 +42,9 @@ size_t	ft_strlen(char *str)
 	size_t	i;
 
 	i = 0;
-	if (!str)
+	if (str == NULL)
 		return (0);
-	while (str[i])
+	while (str[i] != '\0')
 		i++;
 	return (i);
 }
@@ -58,7 +58,7 @@ char	*ft_strchr(char *s, int c)
 		return (0);
 	if (!c)
 		return ((char *)&s[ft_strlen(s)]);
-	while (s[i])
+	while (s[i] != '\0')
 	{
 		if (s[i] == (char) c)
 			return ((char *)&s[i]);
@@ -79,7 +79,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		str = (char *)malloc(sizeof(const char) * (len + 1));
 	else
 		str = (char *)malloc(sizeof(const char) * (ft_strlen(s) - start + 1));
-	if (!(str))
+	if (str == NULL)
 		return (NULL);
 	while (i < len && s[start] != '\0')
 	{
