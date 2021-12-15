@@ -6,7 +6,7 @@
 /*   By: hohnuki <hohnuki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:23:38 by hohnuki           #+#    #+#             */
-/*   Updated: 2021/12/13 22:25:34 by hohnuki          ###   ########.fr       */
+/*   Updated: 2021/12/15 21:33:05 by hohnuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strchr(char *s, int c)
 	return (0);
 }
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*str;
 	size_t	i;
@@ -75,8 +75,6 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s) || !len)
-		return (ft_strdup(""));
 	if (len <= ft_strlen(s))
 		str = (char *)malloc(sizeof(const char) * (len + 1));
 	else
